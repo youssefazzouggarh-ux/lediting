@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'EDITING — After Effects Projects, SFX, Music & AI Packs</title>
+<meta name="description" content="Ready-to-use After Effects project files, sound effects, music and AI packs for video editors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:wght@800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+:root{
+  --bg:#0F0F0F; --card:#1E1E1E; --card2:#272727; --line:rgba(255,255,255,.08);
+  --green:#3CB64A; --green-soft:rgba(60,182,74,.12); --orange:#CF6A06;
+  --text:#A1A1AB; --white:#FFFFFF; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{color:var(--white);line-height:1.15;font-weight:700}
+.container{width:min(1140px,100% - 32px);margin-inline:auto}
+section{padding:90px 0}
+.center{text-align:center}
+.eyebrow{color:var(--green);font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.section-title{font-size:clamp(26px,3.4vw,38px);margin-bottom:12px}
+.section-sub{max-width:640px;margin:0 auto 48px}
+.green{color:var(--green)}
+i[data-lucide],svg.lucide{width:18px;height:18px;stroke-width:2}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 30px;border-radius:100px;font-weight:600;font-size:15px;color:#fff;border:0;cursor:pointer;transition:transform .2s,box-shadow .2s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-green{background:var(--green);box-shadow:0 8px 30px -10px rgba(60,182,74,.7)}
+.btn-orange{background:var(--orange);box-shadow:0 8px 30px -10px rgba(207,106,6,.7)}
+.btn-ghost{background:transparent;border:1px solid var(--line)}
+.btn-sm{height:38px;padding:0 18px;font-size:14px}
+
+/* top bar + nav */
+.topbar{background:var(--green);color:#fff;font-size:13px;font-weight:500;text-align:center;padding:5px 12px;display:flex;justify-content:center;gap:22px;flex-wrap:wrap}
+.topbar span{display:inline-flex;align-items:center;gap:6px}
+.topbar svg{width:14px;height:14px}
+nav.main{position:sticky;top:0;z-index:50;background:rgba(15,15,15,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.main.scrolled{border-color:var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;color:#fff}
+.logo .mark{width:38px;height:38px;flex:none;transition:transform .4s}
+.logo:hover .mark{transform:rotate(90deg)}
+.logo-txt{display:flex;flex-direction:column;line-height:1}
+.logo-txt b{font-family:Archivo,Inter,sans-serif;font-weight:800;font-size:20px;letter-spacing:.01em}
+.logo-txt small{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text);margin-top:4px;letter-spacing:.02em}
+.nav-right{display:flex;align-items:center;gap:18px;color:#fff}
+.icon-btn{background:none;border:0;color:#fff;cursor:pointer;display:grid;place-items:center;position:relative}
+.badge{position:absolute;top:-7px;right:-9px;background:#fff;color:#000;font-size:10px;font-weight:700;border-radius:99px;min-width:16px;height:16px;display:grid;place-items:center}
+.menu-btn{background:var(--green);color:#fff;border:0;border-radius:8px;height:40px;padding:0 14px;display:flex;align-items:center;gap:10px;font-weight:600;cursor:pointer}
+.mega{position:absolute;right:0;left:0;top:68px;background:var(--card);border-bottom:1px solid var(--line);opacity:0;pointer-events:none;transform:translateY(-8px);transition:.25s}
+.mega.open{opacity:1;pointer-events:auto;transform:none}
+.mega-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;padding:24px 0}
+.mega a{display:flex;gap:12px;padding:14px;border-radius:12px;transition:background .2s}
+.mega a:hover{background:var(--card2)}
+.mega a b{color:#fff;display:block;font-weight:600}
+.mega a small{font-size:13px}
+.mega .ic{width:38px;height:38px;flex:none;border-radius:10px;background:var(--green-soft);color:var(--green);display:grid;place-items:center}
+.search-wrap{overflow:hidden;max-height:0;transition:max-height .3s}
+.search-wrap.open{max-height:80px}
+.search-wrap input{width:100%;height:48px;margin:0 0 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:#fff;padding:0 16px;font:inherit}
+
+/* hero */
+.hero{position:relative;padding:80px 0 100px;overflow:hidden}
+.hero-glow{position:absolute;width:700px;height:700px;right:-120px;top:-60px;background:radial-gradient(circle,rgba(60,182,74,.22),transparent 65%);pointer-events:none;animation:pulse 6s ease-in-out infinite}
+.hero-lines{position:absolute;right:-100px;top:0;width:900px;opacity:.18;pointer-events:none}
+@keyframes pulse{50%{opacity:.6;transform:scale(1.08)}}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(34px,5vw,54px);margin:14px 0 20px}
+.hero p{max-width:520px;margin-bottom:30px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:32px;margin-top:40px}
+.hero-stats b{display:block;color:#fff;font-size:26px}
+.hero-stats span{font-size:13px}
+.hero-visual{position:relative;height:420px}
+.phone{position:absolute;left:10%;top:0;width:220px;height:390px;border-radius:14px;overflow:hidden;background:#111;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);animation:float 6s ease-in-out infinite}
+.phone-bg{position:absolute;inset:0;background:linear-gradient(160deg,#1d3a22,#0f0f0f 45%,#3a2307);background-size:200% 200%;animation:shift 8s ease infinite}
+@keyframes shift{50%{background-position:100% 100%}}
+.phone-word{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-weight:800;font-size:30px;color:#fff;text-transform:uppercase;letter-spacing:-.01em;padding:20px}
+.phone-word span{opacity:0;transform:scale(.6);transition:.35s cubic-bezier(.2,1.6,.4,1)}
+.phone-word span.on{opacity:1;transform:none}
+.phone-word span.hl{color:var(--green)}
+.phone-bar{position:absolute;bottom:14px;left:14px;right:14px;height:3px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.phone-bar i{display:block;height:100%;width:0;background:#fff;animation:prog 6s linear infinite}
+@keyframes prog{to{width:100%}}
+.workflow{position:absolute;right:0;top:20px;width:200px;background:rgba(20,20,20,.92);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:0 20px 50px -20px #000}
+.workflow h4{font-size:13px;font-weight:600;margin-bottom:8px}
+.wf-step{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:12.5px;color:#fff;font-weight:500;margin-top:6px;transition:.3s}
+.wf-step svg{width:14px;height:14px;color:var(--green)}
+.wf-step.active{border-color:var(--green);background:var(--green-soft);transform:translateX(-4px)}
+.bubble{position:absolute;width:52px;height:52px;border-radius:50%;background:var(--green);display:grid;place-items:center;color:#fff;box-shadow:0 10px 30px -8px rgba(60,182,74,.8)}
+.bubble svg{width:24px;height:24px}
+.b1{right:22%;top:250px;animation:float 5s ease-in-out infinite}
+.b2{right:2%;top:290px;animation:float 5s ease-in-out -2.5s infinite}
+@keyframes float{50%{transform:translateY(-12px)}}
+
+/* category boxes */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.cat{cursor:pointer;text-align:left}
+.box{position:relative;aspect-ratio:1;border-radius:14px;background:linear-gradient(180deg,#1a1a1a,#0c0c0c);border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;transition:transform .35s,box-shadow .35s}
+.box::after{content:"";position:absolute;inset:auto 0 0;height:50%;background:radial-gradient(ellipse at bottom,var(--c),transparent 70%);opacity:.35;transition:opacity .35s}
+.pack{position:relative;z-index:1;width:56%;aspect-ratio:3/4;border-radius:6px;background:linear-gradient(145deg,#222,#090909);border:1px solid rgba(255,255,255,.12);border-right:4px solid var(--c);box-shadow:8px 10px 30px rgba(0,0,0,.7),0 0 30px -8px var(--c);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transform:perspective(500px) rotateY(-14deg);transition:transform .4s}
+.pack svg{width:34px;height:34px;color:var(--c)}
+.pack b{color:#fff;font-size:12px;text-align:center;line-height:1.1;text-transform:uppercase;letter-spacing:.04em;padding:0 6px}
+.cat:hover .box{transform:translateY(-6px);box-shadow:0 20px 40px -20px var(--c)}
+.cat:hover .box::after{opacity:.7}
+.cat:hover .pack{transform:perspective(500px) rotateY(0) scale(1.05)}
+.cat h3{font-size:15px;font-weight:600;margin-top:12px}
+.cat p{font-size:13px}
+
+/* before after */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.compare{position:relative;aspect-ratio:1;max-width:440px;border-radius:16px;overflow:hidden;background:#000;user-select:none}
+.compare .side{position:absolute;inset:0;display:grid;place-items:center}
+.before{background:#e9e9e9;color:#333}
+.before .plain{font-size:22px;font-weight:500}
+.after{background:linear-gradient(135deg,#132a17,#0b0b0b 60%,#2b1a06);clip-path:inset(0 0 0 50%)}
+.after .kin{text-align:center;font-weight:800;color:#fff;font-size:34px;line-height:1;text-transform:uppercase}
+.after .kin em{font-style:normal;color:var(--green);display:block;font-size:56px;animation:pop 1.6s ease-in-out infinite}
+@keyframes pop{50%{transform:scale(1.1) rotate(-3deg)}}
+.tag-label{position:absolute;top:14px;font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px;z-index:2}
+.tl-b{left:14px;background:#fff;color:#111}.tl-a{right:14px;background:var(--green);color:#fff}
+.handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;z-index:3;pointer-events:none}
+.handle::after{content:"⇆";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#fff;color:#111;display:grid;place-items:center;font-weight:700}
+.compare input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:4}
+
+/* shop */
+.filters{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:34px}
+.chip{height:40px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:#fff;font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.chip.active,.chip:hover{background:var(--green);border-color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .3s,border-color .3s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px);border-color:rgba(60,182,74,.5)}
+.thumb{position:relative;aspect-ratio:4/5;overflow:hidden;background:#111}
+.thumb img,.thumb video{width:100%;height:100%;object-fit:cover}
+.thumb-art{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,var(--c),transparent 60%),linear-gradient(160deg,#1b1b1b,#0b0b0b);transition:transform .5s}
+.card:hover .thumb-art{transform:scale(1.06)}
+.thumb-art svg{width:56px;height:56px;color:#fff;opacity:.9}
+.thumb-top{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;z-index:2}
+.pill{font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:5px}
+.pill.new{background:var(--green)}
+.pill svg{width:12px;height:12px}
+.play{position:absolute;bottom:12px;right:12px;z-index:2;width:44px;height:44px;border-radius:50%;background:var(--green);border:0;color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .2s}
+.play:hover{transform:scale(1.1)}
+.wave{position:absolute;bottom:22px;left:14px;display:flex;gap:3px;align-items:flex-end;height:24px;z-index:2}
+.wave i{width:3px;background:#fff;border-radius:2px;height:30%;opacity:.7}
+.wave.on i{animation:eq .8s ease-in-out infinite}
+.wave i:nth-child(2n){animation-delay:-.3s}.wave i:nth-child(3n){animation-delay:-.55s}
+@keyframes eq{50%{height:100%}}
+.card-body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card-cat{font-size:12px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.card h3{font-size:16px;font-weight:600;line-height:1.3}
+.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px}
+.price{color:#fff;font-weight:700;font-size:18px}
+.price s{color:var(--text);font-weight:400;font-size:13px;margin-left:6px}
+.empty{grid-column:1/-1;text-align:center;padding:40px;border:1px dashed var(--line);border-radius:16px}
+
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:.3s}
+.feat:hover{border-color:rgba(60,182,74,.5);transform:translateY(-4px)}
+.feat .ic{width:46px;height:46px;border-radius:12px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;margin-bottom:16px}
+.feat small{color:var(--green);font-weight:600;font-size:12px}
+.feat h4{font-size:17px;margin:4px 0 8px}
+.feat p{font-size:14px}
+.why{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.why .feat{display:flex;gap:18px;align-items:flex-start}
+.why .ic{flex:none;margin:0}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
+.step{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px}
+.step::before{counter-increment:s;content:"0" counter(s);font-size:44px;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(60,182,74,.6);display:block;margin-bottom:10px}
+.step h4{font-size:17px;margin-bottom:6px}
+.step p{font-size:14px}
+
+/* reviews marquee */
+.marquee{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;gap:18px;width:max-content;animation:scroll 45s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.review{width:300px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.stars{color:#FACC15;letter-spacing:2px;margin-bottom:10px}
+.review p{color:#ddd;font-size:14px;margin-bottom:14px}
+.who{display:flex;align-items:center;gap:8px;color:#fff;font-weight:500;font-size:14px;border-top:1px solid var(--line);padding-top:12px}
+.who svg{color:var(--green);width:16px;height:16px}
+
+/* community */
+.community{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.com-visual{position:relative;aspect-ratio:4/3;border-radius:20px;border:1px solid rgba(60,182,74,.3);background:radial-gradient(circle at 50% 120%,rgba(60,182,74,.35),transparent 60%),var(--card);display:grid;place-items:center;overflow:hidden}
+.com-visual .orb{width:120px;height:120px;border-radius:50%;background:var(--green-soft);border:1px solid var(--green);display:grid;place-items:center;color:var(--green);animation:pulse 4s infinite}
+.com-visual .orb svg{width:52px;height:52px}
+.badge-soft{display:inline-block;background:var(--green-soft);color:var(--green);font-size:13px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:12px}
+.checks{list-style:none;margin:20px 0 28px;display:grid;gap:14px}
+.checks li{display:flex;gap:12px}
+.checks svg{color:var(--green);flex:none;margin-top:3px}
+.checks b{color:#fff;display:block;font-weight:600}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.faq summary{cursor:pointer;list-style:none;padding:18px 20px;color:#fff;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--green);font-size:22px;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 20px 18px}
+
+/* cta + footer */
+.cta{border-radius:24px;padding:60px 30px;text-align:center;background:radial-gradient(ellipse at top,rgba(60,182,74,.25),transparent 60%),var(--card);border:1px solid var(--line)}
+.cta h2{font-size:clamp(26px,3.6vw,40px);margin-bottom:12px}
+.cta p{margin-bottom:26px}
+footer{border-top:1px solid var(--line);padding:60px 0 30px;margin-top:40px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:30px}
+.foot h5{color:#fff;font-size:15px;margin-bottom:14px}
+.foot ul{list-style:none;display:grid;gap:8px;font-size:14px}
+.foot a:hover{color:var(--green)}
+.socials{display:flex;gap:10px;margin-top:16px}
+.socials a{width:38px;height:38px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:#fff;transition:.2s}
+.socials a:hover{background:var(--green);border-color:var(--green)}
+.copy{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px;opacity:0;pointer-events:none;transition:.25s}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-card{width:min(860px,100%);max-height:92vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:20px;display:grid;grid-template-columns:1fr 1fr;transform:scale(.96);transition:.25s}
+.modal.open .modal-card{transform:none}
+.modal-media{position:relative;min-height:340px;background:#111}
+.modal-info{padding:28px;display:flex;flex-direction:column;gap:12px}
+.modal-info h3{font-size:24px}
+.modal-info ul{list-style:none;display:grid;gap:8px;font-size:14px}
+.modal-info li{display:flex;gap:8px}
+.modal-info li svg{color:var(--green);flex:none;width:16px;height:16px;margin-top:3px}
+.modal-media .thumb-top{right:60px}
+.close{position:absolute;top:12px;right:12px;z-index:5;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;display:grid;place-items:center}
+
+/* reveal motion */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* responsive */
+@media (max-width:900px){
+  .hero-grid,.ba,.community,.modal-card{grid-template-columns:1fr}
+  .hero-visual{height:420px;max-width:420px}
+  .cats{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .why{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr 1fr}
+  .compare{margin:0 auto}
+}
+@media (max-width:520px){
+  section{padding:64px 0}
+  .steps{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+  .phone{left:0;width:190px;height:340px}
+  .workflow{width:170px}
+  .foot{grid-template-columns:1fr}
+  .topbar .hide-sm{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="hide-sm">Contact our support:</span>
+  <span><i data-lucide="mail"></i><a id="cfgEmail" href="#">youssefazzouggarh@gmail.com</a></span>
+  <span class="hide-sm"><i data-lucide="instagram"></i><a id="cfgWhats" href="#" target="_blank" rel="noopener">@azzouggarh.edit</a></span>
+</div>
+
+<nav class="main" id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="L'EDITING home"><svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M2 13V2h11M35 2h11v11M46 35v11H35M13 46H2V35" fill="none" stroke="currentColor" stroke-width="2.6"/><text x="24" y="30.5" text-anchor="middle" fill="currentColor" font-family="Archivo, Inter, sans-serif" font-weight="800" font-size="15">YA</text></svg><span class="logo-txt"><b data-brand>L'EDITING</b><small data-handle>azzouggarh.edit</small></span></a>
+    <div class="nav-right">
+      <button class="icon-btn" id="searchBtn" aria-label="Search"><i data-lucide="search"></i></button>
+      <a class="icon-btn" href="#shop" aria-label="Shop"><i data-lucide="shopping-bag"></i><span class="badge" id="countBadge">0</span></a>
+      <button class="menu-btn" id="menuBtn">Menu <i data-lucide="menu"></i></button>
+    </div>
+  </div>
+  <div class="container search-wrap" id="searchWrap"><input id="searchInput" type="search" placeholder="Search projects, sounds, music, AI packs…"></div>
+  <div class="mega" id="mega"><div class="container mega-grid" id="megaGrid"></div></div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <svg class="hero-lines" viewBox="0 0 900 700" fill="none" stroke="#3CB64A" stroke-width="1">
+    <circle cx="700" cy="350" r="180"/><circle cx="700" cy="350" r="260"/><circle cx="700" cy="350" r="340"/><circle cx="700" cy="350" r="420"/>
+  </svg>
+  <div class="container hero-grid">
+    <div class="reveal">
+      <div class="eyebrow">Made by editors — for editors</div>
+      <h1>The Creative Vault for <span class="green">Video Editors</span></h1>
+      <p>After Effects project files, sound effects, music and AI packs — all ready to drop into your timeline. Open any file, learn how it's built, and reuse it in your next client edit.</p>
+      <div class="hero-ctas">
+        <a href="#shop" class="btn btn-green">Browse Products <i data-lucide="arrow-right"></i></a>
+        <a href="#categories" class="btn btn-orange">Explore Categories</a>
+      </div>
+      <div class="hero-stats">
+        <div><b data-count="0" id="statProducts">0</b><span>Products</span></div>
+        <div><b>4</b><span>Categories</span></div>
+        <div><b>Weekly</b><span>New drops</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="phone">
+        <div class="phone-bg"></div>
+        <div class="phone-word" id="phoneWord"><span>Edit</span></div>
+        <div class="phone-bar"><i></i></div>
+      </div>
+      <div class="workflow">
+        <h4>Workflow</h4>
+        <div class="wf-step active"><i data-lucide="download"></i>Download the file</div>
+        <div class="wf-step"><i data-lucide="type"></i>Edit text &amp; colors</div>
+        <div class="wf-step"><i data-lucide="image-plus"></i>Drop your assets</div>
+        <div class="wf-step"><i data-lucide="play"></i>Render &amp; export</div>
+      </div>
+      <div class="bubble b1"><i data-lucide="clapperboard"></i></div>
+      <div class="bubble b2"><i data-lucide="audio-waveform"></i></div>
+    </div>
+  </div>
+</header>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="container">
+    <div class="center reveal">
+      <h2 class="section-title">4 Categories — Everything You Edit With</h2>
+      <p class="section-sub">Projects, sounds, music and AI workflows in one place. Pick what you need and deliver any edit your clients ask for.</p>
+    </div>
+    <div class="cats" id="cats"></div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section>
+  <div class="container ba">
+    <div class="compare reveal" id="compare">
+      <div class="side before"><div class="plain">Raw clip</div></div>
+      <div class="side after" id="afterSide"><div class="kin">Before<em>After</em>in minutes</div></div>
+      <span class="tag-label tl-b">Before</span><span class="tag-label tl-a">After</span>
+      <div class="handle" id="handle"></div>
+      <input type="range" min="0" max="100" value="50" id="baRange" aria-label="Compare before and after">
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Before &amp; After</div>
+      <h2 class="section-title" style="margin-top:10px">From raw footage to a scroll-stopping edit</h2>
+      <p>Skip building everything from scratch. Start from a professional project, swap in your content, add the right sound, and export. Drag the slider to see the difference.</p>
+      <a href="#shop" class="btn btn-green" style="margin-top:24px">Start Creating</a>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="container">
+    <div class="center reveal">
+      <div class="eyebrow">The Library</div>
+      <h2 class="section-title" style="margin-top:10px">Explore the Collection</h2>
+      <p class="section-sub">Fresh drops every week. Preview sounds right here, open any project for the details.</p>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section>
+  <div class="container">
+    <div class="center reveal">
+      <h2 class="section-title">What's Included?</h2>
+      <p class="section-sub">Every pack is organized, clean and ready to customize — no messy files, no guesswork.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="ic"><i data-lucide="file-video"></i></div><small>Item 01</small><h4>Full Project Files</h4><p>Complete .AEP files with every composition, effect and keyframe — fully editable.</p></div>
+      <div class="feat reveal"><div class="ic"><i data-lucide="folder-tree"></i></div><small>Item 02</small><h4>Organized Folders</h4><p>Clean structure with labeled layers so you find everything in seconds.</p></div>
+      <div class="feat reveal"><div class="ic"><i data-lucide="audio-lines"></i></div><small>Item 03</small><h4>HQ Audio</h4><p>WAV sound effects and music tracks, mixed and ready for any timeline.</p></div>
+      <div class="feat reveal"><div class="ic"><i data-lucide="palette"></i></div><small>Item 04</small><h4>Color Controls</h4><p>Change the full look of a project from one control panel.</p></div>
+      <div class="feat reveal"><div class="ic"><i data-lucide="sparkles"></i></div><small>Item 05</small><h4>AI Workflows</h4><p>Prompts, AI assets and the exact steps to combine AI with After Effects.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section>
+  <div class="container">
+    <div class="center reveal">
+      <h2 class="section-title">Why Choose <span data-brand>L'EDITING</span>?</h2>
+      <p class="section-sub">Built for editors who want real, modern styles — not generic templates.</p>
+    </div>
+    <div class="why">
+      <div class="feat reveal"><div class="ic"><i data-lucide="trending-up"></i></div><div><h4>Trend-Ready Styles</h4><p>Projects inspired by what's working on TikTok, Reels and YouTube right now.</p></div></div>
+      <div class="feat reveal"><div class="ic"><i data-lucide="graduation-cap"></i></div><div><h4>Open Files That Teach</h4><p>Study the timeline and understand exactly how every effect is built.</p></div></div>
+      <div class="feat reveal"><div class="ic"><i data-lucide="zap"></i></div><div><h4>Fast Render</h4><p>Optimized compositions that export quickly without losing quality.</p></div></div>
+      <div class="feat reveal"><div class="ic"><i data-lucide="badge-dollar-sign"></i></div><div><h4>Affordable Pricing</h4><p>Pro-level assets at prices that make sense for editors at every level.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section>
+  <div class="container">
+    <div class="center reveal">
+      <h2 class="section-title">Works in 4 Simple Steps</h2>
+      <p class="section-sub">Download — drag into your timeline — customize — render. That's it.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h4>Download</h4><p>Get your pack instantly after purchase.</p></div>
+      <div class="step reveal"><h4>Import</h4><p>Open the project or drag the sounds into your timeline.</p></div>
+      <div class="step reveal"><h4>Customize</h4><p>Swap text, colors, footage and music.</p></div>
+      <div class="step reveal"><h4>Render</h4><p>Export and deliver a pro edit to your client.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section>
+  <div class="container center reveal">
+    <h2 class="section-title">Real Feedback From Creators</h2>
+    <p class="section-sub">What editors say after using our packs.</p>
+  </div>
+  <div class="marquee reveal"><div class="track" id="track"></div></div>
+</section>
+
+<!-- COMMUNITY -->
+<section>
+  <div class="container community">
+    <div class="com-visual reveal"><div class="orb"><i data-lucide="users"></i></div></div>
+    <div class="reveal">
+      <span class="badge-soft">Instagram Community</span>
+      <h2 class="section-title">Join the <span class="green">Community</span></h2>
+      <p>Create better edits, together.</p>
+      <ul class="checks">
+        <li><i data-lucide="circle-check"></i><div><b>Project breakdowns</b>Open real projects and see how each edit is built.</div></li>
+        <li><i data-lucide="circle-check"></i><div><b>Free resources</b>Fonts, SFX, textures and workflow tools.</div></li>
+        <li><i data-lucide="circle-check"></i><div><b>Feedback &amp; discussion</b>Share edits, ask questions, grow with other editors.</div></li>
+      </ul>
+      <a href="#" id="cfgDiscord" target="_blank" rel="noopener" class="btn btn-green"><i data-lucide="instagram"></i> Follow @azzouggarh.edit</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="center reveal"><h2 class="section-title">Frequently Asked Questions</h2><p class="section-sub">Everything you need to know before you buy.</p></div>
+    <div class="faq reveal">
+      <details><summary>Which software do I need?</summary><p>After Effects projects need Adobe After Effects (2022 or newer recommended). Sound effects and music work in any editor: Premiere Pro, DaVinci Resolve, CapCut, Final Cut and more.</p></details>
+      <details><summary>Can I use the files in client work?</summary><p>Yes. You can use everything in personal and commercial client projects. You can't resell or redistribute the original files.</p></details>
+      <details><summary>How do I receive my files?</summary><p>Checkout is handled securely by Gumroad. Right after payment you get an instant download link by email.</p></details>
+      <details><summary>Do you add new products?</summary><p>Yes — new projects, sounds and AI packs drop every week.</p></details>
+      <details><summary>What if I have a problem with a file?</summary><p>Contact us by email or Instagram DM and we'll help you quickly.</p></details>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="container"><div class="cta reveal">
+    <h2>Ready to edit faster?</h2>
+    <p>Grab your first pack and deliver your next edit in half the time.</p>
+    <a href="#shop" class="btn btn-green">Browse the Library <i data-lucide="arrow-right"></i></a>
+  </div></div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot">
+      <div>
+        <a href="#" class="logo" aria-label="L'EDITING home"><svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M2 13V2h11M35 2h11v11M46 35v11H35M13 46H2V35" fill="none" stroke="currentColor" stroke-width="2.6"/><text x="24" y="30.5" text-anchor="middle" fill="currentColor" font-family="Archivo, Inter, sans-serif" font-weight="800" font-size="15">YA</text></svg><span class="logo-txt"><b data-brand>L'EDITING</b><small data-handle>azzouggarh.edit</small></span></a>
+        <p style="margin-top:12px;font-size:14px">Editors should spend less time searching and more time creating.</p>
+        <div class="socials" id="socials"></div>
+      </div>
+      <div><h5>Shop</h5><ul id="footCats"></ul></div>
+      <div><h5>Company</h5><ul><li><a href="#categories">Categories</a></li><li><a href="#shop">Library</a></li><li><a href="#" id="cfgDiscord2" target="_blank" rel="noopener">Community</a></li><li><a href="https://youssefazzouggarh-ux.github.io/" target="_blank" rel="noopener">Portfolio</a></li><li><a href="https://lediting.gumroad.com" target="_blank" rel="noopener">Gumroad store</a></li></ul></div>
+      <div><h5>Contact</h5><ul><li id="footEmail"></li><li id="footWhats"></li></ul></div>
+    </div>
+    <div class="copy"><span>© <span id="year"></span> <span data-brand>L'EDITING</span>. All rights reserved.</span><span>By Youssef Azzouggarh · azzouggarh.edit</span></div>
+  </div>
+</footer>
+
+<div class="modal" id="modal"><div class="modal-card" id="modalCard"></div></div>
+
+<script>
+/* =========================================================
+   EDIT EVERYTHING HERE — brand, links, categories, products
+   ========================================================= */
+const CONFIG = {
+  brand: "L'EDITING",
+  handle: "azzouggarh.edit",
+  email: "youssefazzouggarh@gmail.com",
+  instagram: "azzouggarh.edit",                    // DMs go here ("Ask on Instagram")
+  gumroadStore: "https://lediting.gumroad.com",
+  community: "https://www.instagram.com/azzouggarh.edit/",
+  socials: {
+    instagram: "https://www.instagram.com/azzouggarh.edit/",
+    linkedin: "https://www.linkedin.com/in/youssef-azzouggarh-951878274/",
+    portfolio: "https://youssefazzouggarh-ux.github.io/"
+  },
+  currency: "$"
+};
+
+const CATEGORIES = [
+  { id:"ae",    name:"After Effects Projects", short:"AE Projects", color:"#8B5CF6", icon:"clapperboard",   desc:"Editable .AEP project files" },
+  { id:"sfx",   name:"Sound Effects",          short:"Sound FX",    color:"#3B82F6", icon:"audio-waveform", desc:"Whooshes, hits, risers, UI" },
+  { id:"music", name:"Music",                  short:"Music",       color:"#EC4899", icon:"music",          desc:"Tracks for reels & YouTube" },
+  { id:"ai",    name:"AI Projects",            short:"AI Packs",    color:"#F59E0B", icon:"sparkles",       desc:"AI + AE workflows & prompts" }
+];
+
+/* Product fields:
+   title, cat (ae|sfx|music|ai), price, oldPrice (optional), info (duration / count),
+   image (optional: "images/x.jpg"), video (optional: "videos/x.mp4"), audio (optional: "audio/x.mp3"),
+   desc, includes [list], buy (your Gumroad / Payhip / Lemon Squeezy link), isNew */
+/* LIVE = real Gumroad products (buy opens Gumroad checkout on the page).
+   Products with buy:"" show "Coming soon" — add the Gumroad link when you publish them. */
+const PRODUCTS = [
+  /* ---- LIVE on lediting.gumroad.com ---- */
+  { title:"IKEA Style Motion Ad — After Effects Project (4K)", cat:"ae", price:29, info:"4K", isNew:true,
+    image:"https://public-files.gumroad.com/lroqvwi84m2i878i06ovyyvodu6k",
+    desc:"A fully structured After Effects project for an IKEA-style motion ad, organized and ready for commercial client work.",
+    includes:["Full .AEP project (4K)","Organized compositions","Commercial use"], buy:"https://lediting.gumroad.com/l/fhjct" },
+  { title:"YAHABIBI — Creative Showcase Project", cat:"ae", price:7, info:"AE Project",
+    image:"https://public-files.gumroad.com/nu0h468g4maa6nk45kbg58j79ab1",
+    desc:"An After Effects project to showcase creative work — clean structure, modern style, easy to customize.",
+    includes:["Full .AEP file","Simple structure","Easy customization"], buy:"https://lediting.gumroad.com/l/vruysr" },
+  { title:"SFX PACK — L'EDITING", cat:"sfx", price:7, info:"SFX Pack", isNew:true,
+    image:"https://public-files.gumroad.com/40skwlsk5koi3ek18mk5wcdrzlz1",
+    desc:"Cinematic sound effects for editors, filmmakers, content creators and motion designers who want more impact and emotion.",
+    includes:["Cinematic SFX","Ready for any editor","Royalty-free use"], buy:"https://lediting.gumroad.com/l/gmmdnb", audio:"" },
+  { title:"3 Essential After Effects Plugins — Pro Workflow Pack", cat:"ai", price:5, info:"Workflow",
+    image:"https://public-files.gumroad.com/1i4uc5loo3iu7zem961pu5prjh1v",
+    desc:"A pro workflow pack built around three essential After Effects plugins to speed up your edits.",
+    includes:["3 plugin workflow","Pro tips","Faster editing"], buy:"https://lediting.gumroad.com/l/xiidqn" },
+
+  /* ---- MOCKUPS (replace image + add buy link when ready) ---- */
+  { title:"Storytelling Documentary Edit", cat:"ae", price:12, info:"00:42", image:"storytelling-documentary.jpg",
+    desc:"Cinematic documentary-style reel with map zooms, archive photo animations and bold captions.",
+    includes:["Full .AEP file","Organized folders","Editable text & colors","Sound recommendations"], buy:"" },
+  { title:"Kinetic Typography Pack", cat:"ae", price:9, info:"10 styles", image:"kinetic-typography.jpg",
+    desc:"Fast word-by-word captions with pops, shakes and highlight words for viral reels.",
+    includes:["Full .AEP file","10 caption styles","Font list"], buy:"" },
+  { title:"Cinematic Whoosh Pack", cat:"sfx", price:7, info:"60 sounds", image:"whoosh-pack.jpg",
+    desc:"Clean, punchy whooshes and swipes for transitions.", includes:["60 WAV files","24-bit / 48kHz","Royalty-free"], buy:"", audio:"" },
+  { title:"Dark Documentary Beds", cat:"music", price:9, info:"8 tracks", image:"dark-documentary-music.jpg",
+    desc:"Suspenseful background music for storytelling and mystery content.", includes:["8 tracks (WAV + MP3)","Loopable versions"], buy:"", audio:"" },
+  { title:"Upbeat Reels Music", cat:"music", price:8, info:"10 tracks", image:"upbeat-reels-music.jpg",
+    desc:"Energetic tracks cut for 15–60s reels.", includes:["10 tracks","15s / 30s / 60s cuts"], buy:"", audio:"" },
+  { title:"AI Character Animation Workflow", cat:"ai", price:14, info:"00:40", image:"ai-character-animation.jpg",
+    desc:"Generate a character with AI, then animate it in After Effects step by step.",
+    includes:["Prompt list","AI assets","Full .AEP file","Video walkthrough"], buy:"" },
+  { title:"AI Product Ad Pack", cat:"ai", price:16, info:"00:30", image:"ai-product-ad.jpg",
+    desc:"Turn simple product photos into an AI-powered ad with AE motion on top.",
+    includes:["Prompts","Template .AEP","Export settings"], buy:"" },
+  { title:"AI Voiceover + Captions Kit", cat:"ai", price:8, info:"Workflow", image:"ai-voiceover-captions.jpg",
+    desc:"Fast workflow to generate voiceovers and auto-animated captions.", includes:["Step-by-step guide","Caption .AEP presets"], buy:"" }
+];
+
+/* Replace these with REAL reviews from your clients */
+const REVIEWS = [
+  { name:"@your_client_1", text:"Add a real review from a client here.", stars:5 },
+  { name:"@your_client_2", text:"Screenshots or short quotes from Instagram comments work great.", stars:5 },
+  { name:"@your_client_3", text:"Only use reviews people actually gave you.", stars:5 },
+  { name:"@your_client_4", text:"Add as many as you want — the row scrolls automatically.", stars:5 }
+];
+/* ========================================================= */
+
+const $ = s => document.querySelector(s);
+const catOf = id => CATEGORIES.find(c => c.id === id);
+let activeCat = "all", query = "", playing = null;
+
+/* brand + config */
+const DM = "https://ig.me/m/" + CONFIG.instagram;
+document.querySelectorAll("[data-brand]").forEach(e => e.textContent = CONFIG.brand);
+document.querySelectorAll("[data-handle]").forEach(e => e.textContent = CONFIG.handle);
+document.title = CONFIG.brand + " — After Effects Projects, SFX, Music & AI Packs";
+$("#cfgEmail").textContent = CONFIG.email; $("#cfgEmail").href = "mailto:" + CONFIG.email;
+$("#cfgWhats").href = DM; $("#cfgWhats").textContent = "@" + CONFIG.instagram;
+$("#cfgDiscord").href = $("#cfgDiscord2").href = CONFIG.community;
+$("#footEmail").innerHTML = `<a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`;
+$("#footWhats").innerHTML = `<a href="${DM}" target="_blank" rel="noopener">Instagram DM</a>`;
+$("#year").textContent = new Date().getFullYear();
+const socialIcons = { instagram:"instagram", linkedin:"linkedin", portfolio:"globe", tiktok:"music-2", youtube:"youtube", facebook:"facebook" };
+$("#socials").innerHTML = Object.entries(CONFIG.socials).map(([k,v]) => `<a href="${v}" aria-label="${k}"><i data-lucide="${socialIcons[k]}"></i></a>`).join("");
+
+/* categories, menu, footer, filters */
+$("#cats").innerHTML = CATEGORIES.map(c => `
+  <div class="cat reveal" style="--c:${c.color}" data-cat="${c.id}">
+    <div class="box"><div class="pack"><i data-lucide="${c.icon}"></i><b>${c.short}</b></div></div>
+    <h3>${c.name}</h3><p>${c.desc}</p>
+  </div>`).join("");
+$("#megaGrid").innerHTML = CATEGORIES.map(c => `
+  <a href="#shop" data-cat="${c.id}"><span class="ic"><i data-lucide="${c.icon}"></i></span><span><b>${c.name}</b><small>${c.desc}</small></span></a>`).join("");
+$("#footCats").innerHTML = CATEGORIES.map(c => `<li><a href="#shop" data-cat="${c.id}">${c.name}</a></li>`).join("");
+$("#filters").innerHTML = `<button class="chip active" data-f="all">All</button>` +
+  CATEGORIES.map(c => `<button class="chip" data-f="${c.id}"><i data-lucide="${c.icon}"></i>${c.short}</button>`).join("");
+
+document.addEventListener("click", e => {
+  const c = e.target.closest("[data-cat]");
+  if (c) { setFilter(c.dataset.cat); $("#mega").classList.remove("open"); document.getElementById("shop").scrollIntoView(); }
+  const f = e.target.closest("[data-f]"); if (f) setFilter(f.dataset.f);
+});
+function setFilter(id){
+  activeCat = id;
+  document.querySelectorAll(".chip").forEach(b => b.classList.toggle("active", b.dataset.f === id));
+  renderGrid();
+}
+
+/* product grid */
+function thumb(p, big){
+  const c = catOf(p.cat);
+  let media = p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">`
+            : p.video ? `<video src="${p.video}" muted loop playsinline autoplay></video>`
+            : `<div class="thumb-art" style="--c:${c.color}55"><i data-lucide="${c.icon}"></i></div>`;
+  const audio = p.cat === "sfx" || p.cat === "music";
+  return `${media}
+    <div class="thumb-top"><span class="pill"><i data-lucide="${c.icon}"></i>${p.info || c.short}</span>${p.isNew ? '<span class="pill new">New</span>' : (!p.buy ? '<span class="pill">Soon</span>' : "")}</div>
+    ${audio ? `<div class="wave" data-wave="${p._i}">${"<i></i>".repeat(10)}</div><button class="play" data-play="${p._i}" aria-label="Play preview"><i data-lucide="play"></i></button>` : ""}`;
+}
+function renderGrid(){
+  const q = query.toLowerCase();
+  const list = PRODUCTS.filter(p => (activeCat === "all" || p.cat === activeCat) &&
+    (!q || (p.title + " " + p.desc + " " + catOf(p.cat).name).toLowerCase().includes(q)));
+  $("#grid").innerHTML = list.length ? list.map(p => `
+    <article class="card reveal in">
+      <div class="thumb" data-open="${p._i}" style="cursor:pointer">${thumb(p)}</div>
+      <div class="card-body">
+        <span class="card-cat">${catOf(p.cat).name}</span>
+        <h3>${p.title}</h3>
+        <div class="card-foot">
+          <span class="price">${CONFIG.currency}${p.price}${p.oldPrice ? `<s>${CONFIG.currency}${p.oldPrice}</s>` : ""}</span>
+          <button class="btn ${p.buy ? "btn-green" : "btn-ghost"} btn-sm" data-open="${p._i}">${p.buy ? "View Details" : "Soon"}</button>
+        </div>
+      </div>
+    </article>`).join("") : `<div class="empty">No products found. Try another search.</div>`;
+  window.lucide && lucide.createIcons();
+}
+PRODUCTS.forEach((p,i) => p._i = i);
+$("#countBadge").textContent = PRODUCTS.length;
+
+/* audio preview */
+const player = new Audio();
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-play]"); if (!b) return;
+  e.stopPropagation();
+  const p = PRODUCTS[b.dataset.play];
+  document.querySelectorAll(".wave").forEach(w => w.classList.remove("on"));
+  if (playing === p._i) { player.pause(); playing = null; return; }
+  playing = p._i;
+  document.querySelectorAll(`[data-wave="${p._i}"]`).forEach(w => w.classList.add("on"));
+  if (p.audio) { player.src = p.audio; player.play().catch(()=>{}); }
+});
+player.addEventListener("ended", () => { playing = null; document.querySelectorAll(".wave").forEach(w => w.classList.remove("on")); });
+
+/* modal */
+document.addEventListener("click", e => {
+  const o = e.target.closest("[data-open]"); if (!o || e.target.closest("[data-play]")) return;
+  const p = PRODUCTS[o.dataset.open], c = catOf(p.cat);
+  $("#modalCard").innerHTML = `
+    <div class="modal-media thumb">${thumb(p,true)}<button class="close" id="closeM" aria-label="Close"><i data-lucide="x"></i></button></div>
+    <div class="modal-info">
+      <span class="card-cat">${c.name}</span>
+      <h3>${p.title}</h3>
+      <p>${p.desc}</p>
+      <ul>${(p.includes||[]).map(x => `<li><i data-lucide="circle-check"></i>${x}</li>`).join("")}</ul>
+      <div class="price" style="font-size:28px;margin-top:8px">${CONFIG.currency}${p.price}${p.oldPrice ? `<s>${CONFIG.currency}${p.oldPrice}</s>` : ""}</div>
+      ${p.buy ? `<a href="${p.buy}" class="btn btn-green" data-gumroad-overlay-checkout="true">Buy Now <i data-lucide="arrow-right"></i></a>`
+              : `<span class="btn btn-ghost" style="cursor:default;opacity:.7">Coming soon</span>`}
+      <a href="${DM}" target="_blank" rel="noopener" class="btn btn-ghost"><i data-lucide="instagram"></i> Ask on Instagram</a>
+    </div>`;
+  $("#modal").classList.add("open"); window.lucide && lucide.createIcons();
+});
+$("#modal").addEventListener("click", e => { if (e.target.id === "modal" || e.target.closest("#closeM")) $("#modal").classList.remove("open"); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") $("#modal").classList.remove("open"); });
+
+/* reviews marquee (duplicated for seamless loop) */
+const rv = REVIEWS.map(r => `<div class="review"><div class="stars">${"★".repeat(r.stars)}</div><p>${r.text}</p><div class="who"><i data-lucide="badge-check"></i>${r.name}</div></div>`).join("");
+$("#track").innerHTML = rv + rv;
+
+/* nav: scroll border, menu, search */
+addEventListener("scroll", () => $("#nav").classList.toggle("scrolled", scrollY > 10));
+$("#menuBtn").onclick = () => $("#mega").classList.toggle("open");
+$("#searchBtn").onclick = () => { $("#searchWrap").classList.toggle("open"); $("#searchInput").focus(); };
+$("#searchInput").addEventListener("input", e => {
+  query = e.target.value; renderGrid();
+  if (query) document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+});
+
+/* hero: workflow steps cycle */
+const steps = document.querySelectorAll(".wf-step"); let si = 0;
+setInterval(() => { steps.forEach(s => s.classList.remove("active")); steps[si = (si+1) % steps.length].classList.add("active"); }, 1500);
+
+/* hero: kinetic words in the phone */
+const words = [["This"],["edit"],["went","hl"],["viral","hl"],["in"],["24h"]]; let wi = 0;
+setInterval(() => {
+  const [w, cls] = words[wi = (wi+1) % words.length];
+  $("#phoneWord").innerHTML = `<span class="${cls||""}">${w}</span>`;
+  requestAnimationFrame(() => requestAnimationFrame(() => $("#phoneWord span").classList.add("on")));
+}, 1000);
+
+/* before / after slider */
+$("#baRange").addEventListener("input", e => {
+  const v = e.target.value;
+  $("#afterSide").style.clipPath = `inset(0 0 0 ${v}%)`;
+  $("#handle").style.left = v + "%";
+});
+
+/* count-up for products stat */
+function countUp(el, to){ let n = 0; const t = setInterval(() => { el.textContent = ++n; if (n >= to) clearInterval(t); }, 40); }
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (!en.isIntersecting) return;
+  en.target.classList.add("in");
+  if (en.target.querySelector("#statProducts")) countUp($("#statProducts"), PRODUCTS.length);
+  io.unobserve(en.target);
+}), { threshold: .12 });
+renderGrid();
+document.querySelectorAll(".reveal").forEach((el,i) => { el.style.transitionDelay = (i % 4) * 80 + "ms"; io.observe(el); });
+window.lucide && lucide.createIcons();
+</script>
+<script src="https://gumroad.com/js/gumroad.js"></script>
+</body>
+</html>
