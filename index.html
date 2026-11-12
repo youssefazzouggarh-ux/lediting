@@ -198,6 +198,7 @@ nav.main.scrolled{border-color:var(--line)}
 .com-visual{position:relative;aspect-ratio:4/3;border-radius:20px;border:1px solid rgba(60,182,74,.3);background:radial-gradient(circle at 50% 120%,rgba(60,182,74,.35),transparent 60%),var(--card);display:grid;place-items:center;overflow:hidden}
 .com-visual .orb{width:120px;height:120px;border-radius:50%;background:var(--green-soft);border:1px solid var(--green);display:grid;place-items:center;color:var(--green);animation:pulse 4s infinite}
 .com-visual .orb svg{width:52px;height:52px}
+.com-visual video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .badge-soft{display:inline-block;background:var(--green-soft);color:var(--green);font-size:13px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:12px}
 .checks{list-style:none;margin:20px 0 28px;display:grid;gap:14px}
 .checks li{display:flex;gap:12px}
@@ -486,7 +487,7 @@ fieldset.cr-types{border:0}
 <!-- COMMUNITY -->
 <section>
   <div class="container community">
-    <div class="com-visual reveal"><div class="orb"><i data-lucide="users"></i></div></div>
+    <div class="com-visual reveal"><video src="community.mp4" poster="community.jpg" muted loop autoplay playsinline></video></div>
     <div class="reveal">
       <span class="badge-soft">Instagram Community</span>
       <h2 class="section-title">Join the <span class="green">Community</span></h2>
@@ -496,7 +497,7 @@ fieldset.cr-types{border:0}
         <li><i data-lucide="circle-check"></i><div><b>Free resources</b>Fonts, SFX, textures and workflow tools.</div></li>
         <li><i data-lucide="circle-check"></i><div><b>Feedback &amp; discussion</b>Share edits, ask questions, grow with other editors.</div></li>
       </ul>
-      <a href="#" id="cfgDiscord" target="_blank" rel="noopener" class="btn btn-green"><i data-lucide="instagram"></i> Follow @azzouggarh.edit</a>
+      <a href="#" id="cfgDiscord" target="_blank" rel="noopener" class="btn btn-green"><i data-lucide="instagram"></i> Join the Community</a>
     </div>
   </div>
 </section>
