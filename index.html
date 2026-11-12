@@ -312,6 +312,15 @@ fieldset.cr-types{border:0}
 .cr-dev{margin-top:14px;padding:10px 12px;border-radius:10px;border:1px dashed #F28A1E;color:#FFC078;font:400 12px/1.5 "JetBrains Mono",monospace;display:none}
 @media (max-width:560px){.cr-panel{padding:22px 18px}.cr-two{grid-template-columns:1fr}.cr-panel h2{font-size:21px}}
 @media (prefers-reduced-motion:reduce){.cr-card,.cr-btn,.cr-modal,.cr-panel{transition:none}}
+/* category preview video */
+.cat-preview{position:relative;max-width:980px;margin:0 auto 34px;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 30px 80px -40px rgba(60,182,74,.45)}
+.cat-preview[hidden]{display:none}
+.cat-preview video{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer}
+.cp-tag{position:absolute;left:14px;top:14px;pointer-events:none}
+.cp-sound{position:absolute;right:14px;bottom:14px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.6);color:#fff;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(6px);transition:.2s}
+.cp-sound:hover{background:var(--green);border-color:var(--green)}
+.cp-sound svg{width:20px;height:20px}
+@media (max-width:640px){.cat-preview{border-radius:14px;margin-bottom:24px}}
 </style>
 </head>
 <body>
@@ -414,6 +423,11 @@ fieldset.cr-types{border:0}
       <p class="section-sub">Fresh drops every week. Preview sounds right here, open any product for the details.</p>
     </div>
     <div class="filters" id="filters"></div>
+    <div class="cat-preview" id="catPreview" hidden>
+      <video id="catVideo" playsinline loop preload="none"></video>
+      <span class="pill cp-tag" id="catTag"></span>
+      <button class="cp-sound" id="catSound" type="button" aria-label="Sound on or off"><i data-lucide="volume-2"></i></button>
+    </div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
@@ -697,7 +711,31 @@ function setFilter(id){
   activeCat = id;
   document.querySelectorAll(".chip").forEach(b => b.classList.toggle("active", b.dataset.f === id));
   renderGrid();
+  showPreview(id);
 }
+
+/* category preview: one short video per category, shown when its button is clicked */
+const PREVIEWS = {"footage": "morocco-drone-clips-preview.mp4", "sfx": "sfx-pack-vol1-preview.mp4", "ai": "system-main-preview.mp4", "custom": "custom-edit-preview.mp4"};
+let cpMuted = false, cpPaused = false;
+function cpIcon(){
+  $("#catSound").innerHTML = `<i data-lucide="${$("#catVideo").muted ? "volume-x" : "volume-2"}"></i>`;
+  window.lucide && lucide.createIcons();
+}
+function showPreview(id){
+  const box = $("#catPreview"), v = $("#catVideo"), src = PREVIEWS[id];
+  if (!src) { v.pause(); box.hidden = true; return; }
+  if (v.dataset.cat !== id) { v.dataset.cat = id; v.poster = src.replace(/\.mp4$/, ".jpg"); v.src = src; $("#catTag").textContent = "Preview: " + catOf(id).name; }
+  box.hidden = false; cpPaused = false;
+  if (playing !== null) { player.pause(); playing = null; document.querySelectorAll(".wave").forEach(w => w.classList.remove("on")); }
+  v.muted = cpMuted; v.currentTime = 0;
+  v.play().catch(() => { v.muted = true; v.play().catch(() => {}); }).finally(cpIcon);
+}
+$("#catSound").addEventListener("click", () => { const v = $("#catVideo"); v.muted = cpMuted = !v.muted; cpIcon(); });
+$("#catVideo").addEventListener("click", e => { const v = e.target; cpPaused = !v.paused; cpPaused ? v.pause() : v.play(); });
+new IntersectionObserver(es => es.forEach(e => {
+  const v = $("#catVideo"); if ($("#catPreview").hidden) return;
+  e.isIntersecting ? (!cpPaused && v.play().catch(() => {})) : v.pause();
+}), { threshold: .25 }).observe($("#catPreview"));
 
 /* product grid */
 function thumb(p, big){
@@ -741,7 +779,7 @@ document.addEventListener("click", e => {
   const p = PRODUCTS[b.dataset.play];
   document.querySelectorAll(".wave").forEach(w => w.classList.remove("on"));
   if (playing === p._i) { player.pause(); playing = null; return; }
-  playing = p._i;
+  playing = p._i; $("#catVideo").pause(); cpPaused = true;
   document.querySelectorAll(`[data-wave="${p._i}"]`).forEach(w => w.classList.add("on"));
   if (p.audio) { player.src = p.audio; player.play().catch(()=>{}); }
 });
