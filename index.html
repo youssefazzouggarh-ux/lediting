@@ -161,6 +161,11 @@ nav.main.scrolled{border-color:var(--line)}
 .card:hover{transform:translateY(-6px);border-color:rgba(60,182,74,.5)}
 .thumb{position:relative;aspect-ratio:4/5;overflow:hidden;background:#111}
 .thumb img,.thumb video{width:100%;height:100%;object-fit:cover}
+.thumb .product-preview{position:absolute;inset:0;object-fit:contain;background:#000;pointer-events:none;visibility:hidden}
+.thumb.preview-visible .product-preview{visibility:visible}
+.thumb.preview-visible .thumb-top,.thumb.preview-visible .wave{visibility:hidden}
+.preview-status{position:absolute;left:12px;right:64px;bottom:12px;z-index:2;color:#fff;font-size:12px}
+.preview-status:not(:empty){padding:6px 10px;background:#111;border-radius:6px}
 .thumb-art{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,var(--c),transparent 60%),linear-gradient(160deg,#1b1b1b,#0b0b0b);transition:transform .5s}
 .card:hover .thumb-art{transform:scale(1.06)}
 .thumb-art svg{width:56px;height:56px;color:#fff;opacity:.9}
@@ -170,14 +175,15 @@ nav.main.scrolled{border-color:var(--line)}
 .pill svg{width:12px;height:12px}
 .play{position:absolute;bottom:12px;right:12px;z-index:2;width:44px;height:44px;border-radius:50%;background:var(--green);border:0;color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .2s}
 .play:hover{transform:scale(1.1)}
+.play:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.play::before{content:"";width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:12px solid currentColor;margin-left:3px}
+.play[aria-label="Pause preview"]::before{width:12px;height:15px;margin:0;border:0;border-inline:4px solid currentColor}
 .wave{position:absolute;bottom:22px;left:14px;display:flex;gap:3px;align-items:flex-end;height:24px;z-index:2}
 .wave i{width:3px;background:#fff;border-radius:2px;height:30%;opacity:.7}
-.wave.on i{animation:eq .8s ease-in-out infinite}
-.wave i:nth-child(2n){animation-delay:-.3s}.wave i:nth-child(3n){animation-delay:-.55s}
-@keyframes eq{50%{height:100%}}
 .card-body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
 .card-cat{font-size:12px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
 .card h3{font-size:16px;font-weight:600;line-height:1.3}
+.preview-note{font-size:12px;line-height:1.4;color:#c7c7cc}
 .card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px}
 .price{color:#fff;font-weight:700;font-size:18px}
 .price s{color:var(--text);font-weight:400;font-size:13px;margin-left:6px}
@@ -337,6 +343,7 @@ fieldset.cr-types{border:0}
 .cat-preview{position:relative;max-width:980px;margin:0 auto 34px;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 30px 80px -40px rgba(60,182,74,.45)}
 .cat-preview[hidden]{display:none}
 .cat-preview video{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer}
+.cat-preview video[data-cat="sfx"]{object-fit:contain}
 .cp-tag{position:absolute;left:14px;top:14px;pointer-events:none}
 .cp-sound{position:absolute;right:14px;bottom:14px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.6);color:#fff;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(6px);transition:.2s}
 .cp-sound:hover{background:var(--green);border-color:var(--green)}
@@ -653,14 +660,15 @@ const CATEGORIES = [
 
 /* Product fields:
    title, cat (sfx|footage|ai|custom), price, oldPrice (optional), info (duration / count),
-   image (optional: "images/x.jpg"), video (optional: "videos/x.mp4"), audio (optional: "audio/x.mp3"),
+   image (optional: "images/x.jpg"), video (optional: "videos/x.mp4"), preview (optional: "videos/demo.mp4"),
    desc, includes [list], buy (your Gumroad / Payhip / Lemon Squeezy link), isNew,
    request:true = no price and no checkout: the button opens the custom request window */
 /* LIVE = real Gumroad products (buy opens Gumroad checkout on the page).
    Products with buy:"" show "Coming soon" — add the Gumroad link when you publish them. */
 const PRODUCTS = [
   { title:"SFX Pack: 200 Sound Effects in 12 Channels", cat:"sfx", price:37, info:"200 sounds", isNew:true,
-    image:"sfx-pack-200.jpg", audio:"sfx-pack-200-demo.mp3",
+    image:"sfx-pack-200.jpg", preview:"sfx-pack-200-reference-v3.mp4",
+    previewNote:"Reference audio from separate sound libraries",
     desc:"200 sound effects for video editors, sorted in 12 channels: clicks, UI, pops, whooshes, risers, impacts, camera, typing, text and data, paper, mech and sci-fi, elements. Open the channel, grab the sound.",
     includes:["200 WAV files, 48 kHz / 24-bit","12 sorted folders, one per sound type","Use in personal and client work","No credit needed"], buy:"https://lediting.gumroad.com/l/unpwv" },
   { title:"Morocco Drone Clips: 150 Aerial Videos in 4K", cat:"footage", price:179, info:"150 clips", isNew:true,
@@ -688,7 +696,7 @@ const REVIEWS = [
 
 const $ = s => document.querySelector(s);
 const catOf = id => CATEGORIES.find(c => c.id === id);
-let activeCat = "all", query = "", playing = null;
+let activeCat = "all", query = "", productPreview = null;
 
 /* brand + config */
 const DM = "https://ig.me/m/" + CONFIG.instagram;
@@ -729,40 +737,58 @@ function setFilter(id){
 }
 
 /* category preview: one short video per category, shown when its button is clicked */
-const PREVIEWS = {"footage": "morocco-drone-clips-preview.mp4", "sfx": "sfx-pack-200-preview.mp4", "ai": "system-main-preview.mp4", "custom": "custom-edit-preview.mp4"};
+const PREVIEWS = {"footage": "morocco-drone-clips-preview.mp4", "ai": "system-main-preview.mp4", "custom": "custom-edit-preview.mp4"};
 let cpMuted = false, cpPaused = false;
 function cpIcon(){
   $("#catSound").innerHTML = `<i data-lucide="${$("#catVideo").muted ? "volume-x" : "volume-2"}"></i>`;
   window.lucide && lucide.createIcons();
 }
 function showPreview(id){
-  const box = $("#catPreview"), v = $("#catVideo"), src = PREVIEWS[id];
+  const box = $("#catPreview"), v = $("#catVideo");
+  const product = PRODUCTS.find(p => p.cat === id && p.preview);
+  const src = product?.preview || PREVIEWS[id];
   if (!src) { v.pause(); box.hidden = true; return; }
-  if (v.dataset.cat !== id) { v.dataset.cat = id; v.poster = src.replace(/\.mp4$/, ".jpg"); v.src = src; $("#catTag").textContent = "Preview: " + catOf(id).name; }
+  if (v.dataset.cat !== id) { v.dataset.cat = id; v.poster = product?.image || src.replace(/\.mp4$/, ".jpg"); v.src = src; $("#catTag").textContent = product?.previewNote || "Preview: " + catOf(id).name; }
   box.hidden = false; cpPaused = false;
-  if (playing !== null) { player.pause(); playing = null; document.querySelectorAll(".wave").forEach(w => w.classList.remove("on")); }
+  productPreview?.pause();
   v.muted = cpMuted; v.currentTime = 0;
-  v.play().catch(() => { v.muted = true; v.play().catch(() => {}); }).finally(cpIcon);
+  v.play().catch(error => {
+    if (error.name !== "NotAllowedError" || cpPaused || box.hidden || v.dataset.cat !== id) return;
+    v.muted = true;
+    return v.play().catch(() => {});
+  }).finally(cpIcon);
 }
 $("#catSound").addEventListener("click", () => { const v = $("#catVideo"); v.muted = cpMuted = !v.muted; cpIcon(); });
-$("#catVideo").addEventListener("click", e => { const v = e.target; cpPaused = !v.paused; cpPaused ? v.pause() : v.play(); });
+$("#catVideo").addEventListener("click", e => {
+  const v = e.target;
+  cpPaused = !v.paused;
+  if (cpPaused) { v.pause(); return; }
+  productPreview?.pause();
+  v.play().catch(() => {});
+});
 new IntersectionObserver(es => es.forEach(e => {
   const v = $("#catVideo"); if ($("#catPreview").hidden) return;
   e.isIntersecting ? (!cpPaused && v.play().catch(() => {})) : v.pause();
 }), { threshold: .25 }).observe($("#catPreview"));
 
 /* product grid */
-function thumb(p, big){
+function thumb(p){
   const c = catOf(p.cat);
   let media = p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">`
             : p.video ? `<video src="${p.video}" muted loop playsinline autoplay></video>`
             : `<div class="thumb-art" style="--c:${c.color}55"><i data-lucide="${c.icon}"></i></div>`;
-  const audio = p.cat === "sfx" || p.cat === "music";
   return `${media}
     <div class="thumb-top"><span class="pill"><i data-lucide="${c.icon}"></i>${p.info || c.short}</span>${p.isNew ? '<span class="pill new">New</span>' : (!p.buy && !p.request ? '<span class="pill">Soon</span>' : "")}</div>
-    ${audio ? `<div class="wave" data-wave="${p._i}">${"<i></i>".repeat(10)}</div><button class="play" data-play="${p._i}" aria-label="Play preview"><i data-lucide="play"></i></button>` : ""}`;
+    ${p.preview ? `<video class="product-preview" src="${p.preview}" playsinline preload="none" aria-hidden="true"></video>
+      <div class="wave" aria-hidden="true">${"<i></i>".repeat(10)}</div>
+      <button type="button" class="play" data-play aria-label="Play preview"></button>
+      <span class="preview-status" role="status"></span>` : ""}`;
 }
 function renderGrid(){
+  if ($("#grid").contains(productPreview)) {
+    productPreview.pause();
+    productPreview = null;
+  }
   const q = query.toLowerCase();
   const list = PRODUCTS.filter(p => (activeCat === "all" || p.cat === activeCat) &&
     (!q || (p.title + " " + p.desc + " " + catOf(p.cat).name).toLowerCase().includes(q)));
@@ -772,6 +798,7 @@ function renderGrid(){
       <div class="card-body">
         <span class="card-cat">${catOf(p.cat).name}</span>
         <h3>${p.title}</h3>
+        ${p.previewNote ? `<p class="preview-note">${p.previewNote}</p>` : ""}
         <div class="card-foot">
           ${p.request ? `<span class="price" style="font-size:14px">On request</span>
           <button class="btn btn-green btn-sm" data-cr-open>Send your idea</button>`
@@ -785,29 +812,45 @@ function renderGrid(){
 PRODUCTS.forEach((p,i) => p._i = i);
 $("#countBadge").textContent = PRODUCTS.length;
 
-/* audio preview */
-const player = new Audio();
-document.addEventListener("click", e => {
+/* Play the same clip in the grid and product details, one player at a time. */
+document.addEventListener("click", async e => {
   const b = e.target.closest("[data-play]"); if (!b) return;
-  e.stopPropagation();
-  const p = PRODUCTS[b.dataset.play];
-  document.querySelectorAll(".wave").forEach(w => w.classList.remove("on"));
-  if (playing === p._i) { player.pause(); playing = null; return; }
-  playing = p._i; $("#catVideo").pause(); cpPaused = true;
-  document.querySelectorAll(`[data-wave="${p._i}"]`).forEach(w => w.classList.add("on"));
-  if (p.audio) { player.src = p.audio; player.play().catch(()=>{}); }
+  const thumb = b.closest(".thumb"), v = thumb.querySelector(".product-preview");
+  const status = thumb.querySelector(".preview-status");
+  if (!v.paused) { v.pause(); return; }
+  productPreview?.pause();
+  productPreview = v;
+  $("#catVideo").pause(); cpPaused = true;
+  status.textContent = "";
+  try {
+    await v.play();
+    if (!v.paused) thumb.classList.add("preview-visible");
+  } catch (error) {
+    if (error.name !== "AbortError") status.textContent = "Preview unavailable. Try again.";
+  }
 });
-player.addEventListener("ended", () => { playing = null; document.querySelectorAll(".wave").forEach(w => w.classList.remove("on")); });
+for (const event of ["play", "pause", "ended", "error"]) {
+  document.addEventListener(event, e => {
+    const v = e.target;
+    if (!v.matches?.(".product-preview")) return;
+    const thumb = v.closest(".thumb");
+    thumb.querySelector("[data-play]").setAttribute("aria-label", !v.paused && !v.ended ? "Pause preview" : "Play preview");
+    if (event === "ended" || event === "error") thumb.classList.remove("preview-visible");
+  }, true);
+}
 
 /* modal */
 document.addEventListener("click", e => {
   const o = e.target.closest("[data-open]"); if (!o || e.target.closest("[data-play]")) return;
   const p = PRODUCTS[o.dataset.open], c = catOf(p.cat);
+  productPreview?.pause();
+  cpPaused = true; $("#catVideo").pause();
   $("#modalCard").innerHTML = `
-    <div class="modal-media thumb">${thumb(p,true)}<button class="close" id="closeM" aria-label="Close"><i data-lucide="x"></i></button></div>
+    <div class="modal-media thumb">${thumb(p)}<button class="close" id="closeM" aria-label="Close"><i data-lucide="x"></i></button></div>
     <div class="modal-info">
       <span class="card-cat">${c.name}</span>
       <h3>${p.title}</h3>
+      ${p.previewNote ? `<p class="preview-note">${p.previewNote}</p>` : ""}
       <p>${p.desc}</p>
       <ul>${(p.includes||[]).map(x => `<li><i data-lucide="circle-check"></i>${x}</li>`).join("")}</ul>
       <div class="price" style="font-size:28px;margin-top:8px">${CONFIG.currency}${p.price}${p.oldPrice ? `<s>${CONFIG.currency}${p.oldPrice}</s>` : ""}</div>
@@ -817,8 +860,17 @@ document.addEventListener("click", e => {
     </div>`;
   $("#modal").classList.add("open"); window.lucide && lucide.createIcons();
 });
-$("#modal").addEventListener("click", e => { if (e.target.id === "modal" || e.target.closest("#closeM")) $("#modal").classList.remove("open"); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") $("#modal").classList.remove("open"); });
+function closeProductDetails(){
+  if (!$("#modal").classList.contains("open")) return;
+  if ($("#modal").contains(productPreview)) {
+    productPreview.pause();
+    productPreview = null;
+  }
+  $("#modal").classList.remove("open");
+  $("#modalCard").replaceChildren();
+}
+$("#modal").addEventListener("click", e => { if (e.target.id === "modal" || e.target.closest("#closeM")) closeProductDetails(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeProductDetails(); });
 
 /* reviews marquee (duplicated for seamless loop) */
 const rv = REVIEWS.map(r => `<div class="review"><div class="stars">${"★".repeat(r.stars)}</div><p>${r.text}</p><div class="who"><i data-lucide="badge-check"></i>${r.name}</div></div>`).join("");
